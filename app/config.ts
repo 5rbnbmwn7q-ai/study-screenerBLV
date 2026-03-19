@@ -58,7 +58,8 @@ export const config = {
     { id: "sinus_rhythm_now", label: "Nu sinusritme?" },
 
     // --- PAD ---
-    { id: "symptomatic_pad", label: "Symptomatisch PAD?" },
+{ id: "pad_symptomatic_current", label: "Symptomatisch PAD (claudicatio, rustpijn of ischemische wonden)?" },
+{ id: "pad_revascularization_or_amputation", label: "Eerdere revascularisatie of amputatie wegens PAD?" },
     { id: "egfr_lt30", label: "eGFR <30?" },
 
     // --- BLOEDING ---
@@ -116,18 +117,21 @@ export const config = {
       contact: "vte@uzleuven.be | DECT 42057 (Kristine)"
     },
 
-    {
-      id: "pad",
-      title: "LEADER-PAD",
-      subtitle: "PAD",
-      problemTags: ["pad"],
-      requires_all: ["symptomatic_pad"],
-      requires_any: [],
-      hard_exclusions: ["egfr_lt30"],
-      synopsis: "Perifeer vaatlijden",
-      pitch: "Studie voor PAD.",
-      contact: "vte@uzleuven.be"
-    },
+ {
+  id: "pad",
+  title: "LEADER-PAD",
+  subtitle: "Symptomatisch perifeer arterieel vaatlijden",
+  problemTags: ["pad"],
+  requires_all: [],
+  requires_any: [
+    "pad_symptomatic_current",
+    "pad_revascularization_or_amputation"
+  ],
+  hard_exclusions: ["egfr_lt30"],
+  synopsis: "Studie voor patiënten met symptomatisch perifeer arterieel vaatlijden of met eerdere revascularisatie/amputatie wegens PAD.",
+  pitch: "Er loopt een studie voor patiënten met perifeer vaatlijden, ook als zij eerder al een revascularisatie of amputatie wegens PAD ondergingen.",
+  contact: "vte@uzleuven.be | DECT 42057 (Kristine) | DECT 45320 (Katrien)"
+},
 
     {
       id: "caribou",

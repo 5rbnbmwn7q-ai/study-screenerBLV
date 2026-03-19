@@ -71,10 +71,11 @@ const questionIdsByProblem = (
     ids.add("sinus_rhythm_now");
   }
 
-  if (problems.includes("pad")) {
-    ids.add("symptomatic_pad");
-    ids.add("egfr_lt30");
-  }
+if (problems.includes("pad")) {
+  ids.add("pad_symptomatic_current");
+  ids.add("pad_revascularization_or_amputation");
+  ids.add("egfr_lt30");
+}
 
   if (problems.includes("bleeding_disorder")) {
     ids.add("known_inherited_bleeding_disorder");
