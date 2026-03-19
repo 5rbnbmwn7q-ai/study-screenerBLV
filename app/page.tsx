@@ -97,6 +97,35 @@ if (problems.includes("dyslipidemia")) {
 
   ids.add("received_pcsk9_mab_last_3m");
   ids.add("ever_received_inclisiran");
+
+if (problems.includes("acs")) {
+  ids.add("recent_mi");
+  ids.add("multivessel");
+  ids.add("ich");
+  ids.add("gi_bleed");
+  ids.add("recent_stroke");
+  ids.add("dialysis");
+}
+
+if (problems.includes("ascvd_obesity")) {
+  ids.add("cvd");
+  ids.add("age45");
+  ids.add("bmi27");
+}
+
+if (problems.includes("hemophilia") || problems.includes("other_bleeding")) {
+  ids.add("reference_center");
+}
+
+if (problems.includes("hht")) {
+  ids.add("hht_present");
+  ids.add("systemic_tx");
+}
+
+if (problems.includes("fmd")) {
+  ids.add("fmd_confirmed");
+  ids.add("scad_fmd");
+  ids.add("fmd_atypical");
 }
 
   return Array.from(ids);

@@ -1,185 +1,198 @@
 export const config = {
   problemOptions: [
-    {
-      value: "hypertension",
-      label: "Hypertensie",
-      description: "Onvoldoende gecontroleerde bloeddruk / hoog cardiovasculair risico"
-    },
-    {
-      value: "vkf",
-      label: "Voorkamerfibrillatie (VKF)",
-      description: "Recente start van VKF in stress-context"
-    },
-    {
-      value: "pad",
-      label: "Perifeer arterieel vaatlijden",
-      description: "Symptomatisch PAD"
-    },
-    {
-      value: "bleeding_disorder",
-      label: "Bloedingsziekte",
-      description: "Hemofilie, VWD, ROW, andere"
-    },
-    {
-      value: "vwd",
-      label: "Von Willebrandziekte",
-      description: "Bevestigde of vermoede VWD"
-    },
-    {
-      value: "dyslipidemia",
-      label: "Dyslipidemie / hypercholesterolemie",
-      description: "Patiënt op of richting intensieve lipidenverlagende therapie"
-    }
+    // Cardiovasculair
+    { value: "hypertension", label: "Hypertensie" },
+    { value: "vkf", label: "Voorkamerfibrillatie (VKF)" },
+    { value: "acs", label: "Recent myocardinfarct / ACS" },
+    { value: "pad", label: "Perifeer arterieel vaatlijden" },
+
+    // Lipiden
+    { value: "dyslipidemia", label: "Dyslipidemie" },
+    { value: "ascvd_obesity", label: "ASCVD + overgewicht/obesitas" },
+
+    // Bloedingsziekten
+    { value: "vwd", label: "Von Willebrandziekte" },
+    { value: "hemophilia", label: "Hemofilie A/B" },
+    { value: "hht", label: "HHT / vasculaire malformatie" },
+    { value: "other_bleeding", label: "Andere bloedingsziekte" },
+
+    // Zeldzaam
+    { value: "fmd", label: "FMD / SCAD-FMD" }
   ],
 
   questions: [
-    // --- ZENITH ---
-    { id: "uncontrolled_hypertension", label: "Onvoldoende gecontroleerde hypertensie?" },
-    { id: "on_two_or_more_antihypertensives", label: "≥2 antihypertensiva?" },
-    { id: "has_thiazide_or_loop_diuretic", label: "Thiazide/thiazide-like of lisdiureticum aanwezig?" },
-    { id: "recent_antihypertensive_change_30d", label: "Therapie gewijzigd <30 dagen?" },
-    { id: "established_cvd", label: "Gekend cardiovasculair lijden / vroeger CV event?" },
+    // --- GENERIEK CV ---
+    { id: "cvd", label: "Gekend cardiovasculair lijden?" },
+    { id: "mi_history", label: "Eerder myocardinfarct?" },
+    { id: "stroke_history", label: "Eerdere ischemische stroke?" },
+    { id: "pad_history", label: "PAD of perifere revascularisatie?" },
+    { id: "diabetes", label: "Diabetes?" },
+    { id: "ckd", label: "Chronisch nierlijden (eGFR <60)?" },
+    { id: "egfr_lt30", label: "eGFR <30?" },
+    { id: "dialysis", label: "Dialyse?" },
 
-    { id: "zenith_age_established_cvd_18plus", label: "Leeftijd ≥18 jaar?" },
-    { id: "zenith_age_highrisk_55plus", label: "Leeftijd ≥55 jaar?" },
-    { id: "zenith_risk_age_70plus", label: "Leeftijd ≥70 jaar?" },
-    { id: "zenith_risk_egfr_lt60", label: "eGFR <60?" },
-    { id: "zenith_risk_current_smoker", label: "Actieve roker?" },
-    { id: "zenith_risk_af", label: "Voorkamerfibrillatie (VKF)?" },
-    { id: "zenith_risk_ntprobnp_gt125", label: "NT-proBNP >125?" },
-    { id: "zenith_risk_diabetes_or_obesity", label: "Diabetes en/of obesitas?" },
+    // --- HYPERTENSIE ---
+    { id: "ht_uncontrolled", label: "Onvoldoende gecontroleerde hypertensie?" },
+    { id: "ht_2meds", label: "≥2 antihypertensiva?" },
+    { id: "ht_diuretic", label: "Thiazide of lisdiureticum?" },
+    { id: "ht_recent_change", label: "Therapie gewijzigd <30 dagen?" },
 
-    { id: "zenith_exclusion_egfr_lt30", label: "eGFR <30?" },
+    // BACKBEAT
+    { id: "pm_medtronic_dual", label: "Dual-chamber pacemaker van Medtronic?" },
+    { id: "bp_in_range", label: "Bloeddruk in inclusierange?" },
+    { id: "persistent_af", label: "Persisterende/permanente VKF?" },
+    { id: "advanced_hf", label: "Gevorderd hartfalen (NYHA III+ of LVEF <50%)?" },
 
-    // --- ASPIRE ---
-    { id: "recent_af_start_35d", label: "Recente start van VKF (<35 dagen)?" },
-    { id: "afots_after_noncardiac_surgery", label: "Na niet-cardiale heelkunde?" },
-    { id: "afots_after_acute_medical_illness", label: "Na acute medische ziekte?" },
-    { id: "sinus_rhythm_now", label: "Nu sinusritme?" },
+    // --- VKF ---
+    { id: "recent_af", label: "Recente start VKF (<35 dagen)?" },
+    { id: "af_acute", label: "Na acute ziekte?" },
+    { id: "af_surgery", label: "Na niet-cardiale heelkunde?" },
+    { id: "sinus", label: "Nu sinusritme?" },
 
     // --- PAD ---
-{ id: "pad_symptomatic_current", label: "Symptomatisch PAD (claudicatio, rustpijn of ischemische wonden)?" },
-{ id: "pad_revascularization_or_amputation", label: "Eerdere revascularisatie of amputatie wegens PAD?" },
-    { id: "egfr_lt30", label: "eGFR <30?" },
+    { id: "pad_symptoms", label: "Symptomatisch PAD?" },
+    { id: "pad_procedure", label: "Eerdere revascularisatie of amputatie?" },
+
+    // --- ACS ---
+    { id: "recent_mi", label: "(N)STEMI in afgelopen maand?" },
+    { id: "multivessel", label: "Multivessel coronair lijden?" },
+
+    { id: "ich", label: "Voorgeschiedenis intracraniële bloeding?" },
+    { id: "gi_bleed", label: "GI bleed <1 jaar?" },
+    { id: "recent_stroke", label: "Recente stroke?" },
+
+    // --- LIPIDEN ---
+    { id: "triconos_secondary", label: "Secundaire preventie?" },
+    { id: "triconos_primary_high", label: "Hoog risico primaire preventie?" },
+    { id: "bempedoic", label: "Start of plan bempedoic acid?" },
+    { id: "bempedoic_4w", label: "Binnen 4 weken?" },
+    { id: "statin", label: "Statine?" },
+    { id: "ezetimibe", label: "Ezetimibe?" },
+    { id: "pcsk9", label: "PCSK9 laatste 3 maanden?" },
+    { id: "inclisiran", label: "Inclisiran ooit?" },
+
+    { id: "age45", label: "Leeftijd ≥45?" },
+    { id: "bmi27", label: "BMI ≥27?" },
 
     // --- BLOEDING ---
-    { id: "known_inherited_bleeding_disorder", label: "Gekende congenitale bloedingsziekte?" },
-    { id: "known_vwd", label: "Von Willebrandziekte?" },
+    { id: "vwd_confirmed", label: "VWD bevestigd?" },
+    { id: "hemophilia_confirmed", label: "Hemofilie A/B?" },
+    { id: "hht_present", label: "HHT / ROW?" },
+    { id: "systemic_tx", label: "Systemische therapie nodig?" },
+    { id: "other_bleeding_confirmed", label: "Andere bloedingsstoornis?" },
+    { id: "reference_center", label: "Follow-up referentiecentrum?" },
 
-    // --- TRICONOS (NIEUW) ---
-    { id: "triconos_secondary_prevention", label: "Gekend cardiovasculair lijden / vroeger event?" },
-    { id: "triconos_high_risk_primary", label: "Hoog/zeer hoog cardiovasculair risico (primaire preventie)?" },
-
-    { id: "triconos_bempedoic_started_or_planned", label: "Recente start of plan tot starten bempedoic acid?" },
-    { id: "triconos_bempedoic_within_4w", label: "Binnen 4 weken van start bempedoic acid?" },
-
-    { id: "triconos_statin", label: "Gebruik of geplande start van statine?" },
-    { id: "triconos_ezetimibe", label: "Gebruik of geplande start van ezetimibe?" },
-
-    { id: "received_pcsk9_mab_last_3m", label: "PCSK9-mAb laatste 3 maanden?" },
-    { id: "ever_received_inclisiran", label: "Ooit inclisiran gekregen?" }
+    // --- FMD ---
+    { id: "fmd_confirmed", label: "FMD bevestigd (CTA/MRA/angio)?" },
+    { id: "scad_fmd", label: "SCAD + extracoronaire FMD?" },
+    { id: "fmd_atypical", label: "Atypische FMD presentatie?" }
   ],
 
   studies: [
+    // =====================
+    // BESTAANDE
+    // =====================
+
     {
       id: "zenith",
       title: "ZENITH",
-      subtitle: "Hypertensie + CV risico",
       problemTags: ["hypertension"],
-      requires_all: [
-        "uncontrolled_hypertension",
-        "on_two_or_more_antihypertensives",
-        "has_thiazide_or_loop_diuretic"
-      ],
-      requires_any: ["established_cvd", "zenith_high_risk_bucket"],
-      hard_exclusions: [
-        "recent_antihypertensive_change_30d",
-        "zenith_exclusion_egfr_lt30"
-      ],
-      synopsis: "Hypertensie + verhoogd cardiovasculair risico",
-      pitch: "Studie voor patiënten met moeilijk controleerbare hypertensie.",
-      contact: "vte@uzleuven.be | DECT 42057 (Kristine) | DECT 45320 (Katrien)"
+      requires_all: ["ht_uncontrolled", "ht_2meds", "ht_diuretic"],
+      hard_exclusions: ["ht_recent_change", "egfr_lt30"],
+      synopsis: "Hypertensie + CV risico",
+      contact: "vte@uzleuven.be"
     },
 
     {
       id: "aspire",
       title: "ASPIRE-AF",
-      subtitle: "Recente VKF",
       problemTags: ["vkf"],
-      requires_all: ["recent_af_start_35d", "sinus_rhythm_now"],
-      requires_any: [
-        "afots_after_noncardiac_surgery",
-        "afots_after_acute_medical_illness"
-      ],
-      hard_exclusions: [],
-      synopsis: "Recente VKF na acute trigger",
-      pitch: "Studie voor recente VKF.",
-      contact: "vte@uzleuven.be | DECT 42057 (Kristine)"
-    },
-
- {
-  id: "pad",
-  title: "LEADER-PAD",
-  subtitle: "Symptomatisch perifeer arterieel vaatlijden",
-  problemTags: ["pad"],
-  requires_all: [],
-  requires_any: [
-    "pad_symptomatic_current",
-    "pad_revascularization_or_amputation"
-  ],
-  hard_exclusions: ["egfr_lt30"],
-  synopsis: "Studie voor patiënten met symptomatisch perifeer arterieel vaatlijden of met eerdere revascularisatie/amputatie wegens PAD.",
-  pitch: "Er loopt een studie voor patiënten met perifeer vaatlijden, ook als zij eerder al een revascularisatie of amputatie wegens PAD ondergingen.",
-  contact: "vte@uzleuven.be | DECT 42057 (Kristine) | DECT 45320 (Katrien)"
-},
-
-    {
-      id: "caribou",
-      title: "CARIBou",
-      subtitle: "Bloedingsziekten",
-      problemTags: ["bleeding_disorder"],
-      requires_all: ["known_inherited_bleeding_disorder"],
-      requires_any: [],
-      hard_exclusions: [],
-      synopsis: "CV risico bij bloedingsziekten",
-      pitch: "Observationele studie.",
+      requires_all: ["recent_af", "sinus"],
+      requires_any: ["af_acute", "af_surgery"],
+      synopsis: "Recente VKF",
       contact: "vte@uzleuven.be"
     },
 
     {
-      id: "bwill",
-      title: "B-WILL",
-      subtitle: "Von Willebrand",
-      problemTags: ["vwd"],
-      requires_all: ["known_vwd"],
-      requires_any: [],
-      hard_exclusions: [],
-      synopsis: "VWD studie",
-      pitch: "Registratie studie",
+      id: "pad",
+      title: "LEADER-PAD",
+      problemTags: ["pad"],
+      requires_any: ["pad_symptoms", "pad_procedure"],
+      hard_exclusions: ["egfr_lt30"],
+      synopsis: "PAD studie",
       contact: "vte@uzleuven.be"
     },
 
     {
       id: "triconos",
       title: "TRICONOS",
-      subtitle: "Triple lipidentherapie met bempedoic acid",
       problemTags: ["dyslipidemia"],
-      requires_all: [
-        "triconos_bempedoic_started_or_planned",
-        "triconos_statin",
-        "triconos_ezetimibe"
-      ],
-      requires_any: [
-        "triconos_secondary_prevention",
-        "triconos_high_risk_primary"
-      ],
-      hard_exclusions: [
-        "received_pcsk9_mab_last_3m",
-        "ever_received_inclisiran"
-      ],
-      synopsis: "Triple lipidenverlagende therapie met bempedoic acid",
-      pitch: "Studie voor patiënten die starten of gepland staan voor bempedoic acid.",
-      contact: "vte@uzleuven.be | DECT 42057 (Kristine) | DECT 45320 (Katrien)"
+      requires_all: ["bempedoic", "statin", "ezetimibe"],
+      requires_any: ["triconos_secondary", "triconos_primary_high"],
+      hard_exclusions: ["pcsk9", "inclisiran"],
+      synopsis: "Triple lipidentherapie",
+      contact: "vte@uzleuven.be"
+    },
+
+    // =====================
+    // NIEUWE STUDIES
+    // =====================
+
+    {
+      id: "backbeat",
+      title: "BACKBEAT",
+      problemTags: ["hypertension"],
+      requires_all: ["ht_uncontrolled", "pm_medtronic_dual", "bp_in_range"],
+      hard_exclusions: ["persistent_af", "advanced_hf", "dialysis"],
+      synopsis: "Pacemaker-gebaseerde hypertensiebehandeling",
+      contact: "vte@uzleuven.be"
+    },
+
+    {
+      id: "sosami",
+      title: "SOS-AMI",
+      problemTags: ["acs"],
+      requires_all: ["recent_mi", "multivessel"],
+      requires_any: ["diabetes", "ckd", "pad_history", "mi_history"],
+      hard_exclusions: ["ich", "gi_bleed", "dialysis", "recent_stroke"],
+      synopsis: "Post-AMI risicoreductie",
+      contact: "vte@uzleuven.be"
+    },
+
+    {
+      id: "oasis",
+      title: "OASIS-VM",
+      problemTags: ["hht"],
+      requires_any: ["hht_present", "systemic_tx"],
+      synopsis: "Vasculaire malformaties",
+      contact: "vte@uzleuven.be"
+    },
+
+    {
+      id: "maritime",
+      title: "MARITIME-CV",
+      problemTags: ["ascvd_obesity"],
+      requires_all: ["cvd", "age45", "bmi27"],
+      synopsis: "ASCVD + obesitas",
+      contact: "vte@uzleuven.be"
+    },
+
+    {
+      id: "brbdr",
+      title: "BRBDR",
+      problemTags: ["hemophilia", "other_bleeding"],
+      requires_all: ["reference_center"],
+      synopsis: "Rare bleeding registry",
+      contact: "vte@uzleuven.be"
+    },
+
+    {
+      id: "feiri",
+      title: "FEIRI",
+      problemTags: ["fmd"],
+      requires_any: ["fmd_confirmed", "scad_fmd", "fmd_atypical"],
+      synopsis: "FMD studie",
+      contact: "vte@uzleuven.be"
     }
   ]
 };
