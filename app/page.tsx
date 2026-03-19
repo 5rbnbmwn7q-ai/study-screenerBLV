@@ -8,10 +8,15 @@ type Step = 1 | 2 | 3;
 type ProblemValue =
   | "hypertension"
   | "vkf"
+  | "acs"
   | "pad"
-  | "bleeding_disorder"
+  | "dyslipidemia"
+  | "ascvd_obesity"
   | "vwd"
-  | "dyslipidemia";
+  | "hemophilia"
+  | "hht"
+  | "other_bleeding"
+  | "fmd";
 
 const COLORS = {
   primary: "#37C5F3",
@@ -35,98 +40,88 @@ const answerOptions: { value: AnswerValue; label: string; bg: string }[] = [
   { value: "unknown", label: "Onbekend", bg: COLORS.unknown }
 ];
 
-const questionIdsByProblem = (
-  problems: ProblemValue[],
-  answers: Record<string, AnswerValue>
-): string[] => {
+const questionIdsByProblem = (problems: ProblemValue[]): string[] => {
   const ids = new Set<string>();
 
   if (problems.includes("hypertension")) {
-    ids.add("uncontrolled_hypertension");
-    ids.add("on_two_or_more_antihypertensives");
-    ids.add("has_thiazide_or_loop_diuretic");
-    ids.add("recent_antihypertensive_change_30d");
-    ids.add("established_cvd");
-    ids.add("zenith_exclusion_egfr_lt30");
-
-    if (answers["established_cvd"] !== "yes") {
-      ids.add("zenith_age_highrisk_55plus");
-      ids.add("zenith_risk_age_70plus");
-      ids.add("zenith_risk_egfr_lt60");
-      ids.add("zenith_risk_uacr_gt300");
-      ids.add("zenith_risk_current_smoker");
-      ids.add("zenith_risk_af");
-      ids.add("zenith_risk_cac_gt100");
-      ids.add("zenith_risk_ntprobnp_gt125");
-      ids.add("zenith_risk_diabetes_or_obesity");
-    } else {
-      ids.add("zenith_age_established_cvd_18plus");
-    }
+    ids.add("ht_uncontrolled");
+    ids.add("ht_2meds");
+    ids.add("ht_diuretic");
+    ids.add("ht_recent_change");
+    ids.add("pm_medtronic_dual");
+    ids.add("bp_in_range");
+    ids.add("persistent_af");
+    ids.add("advanced_hf");
+    ids.add("egfr_lt30");
   }
 
   if (problems.includes("vkf")) {
-    ids.add("recent_af_start_35d");
-    ids.add("afots_after_noncardiac_surgery");
-    ids.add("afots_after_acute_medical_illness");
-    ids.add("sinus_rhythm_now");
+    ids.add("recent_af");
+    ids.add("af_acute");
+    ids.add("af_surgery");
+    ids.add("sinus");
   }
 
-if (problems.includes("pad")) {
-  ids.add("pad_symptomatic_current");
-  ids.add("pad_revascularization_or_amputation");
-  ids.add("egfr_lt30");
-}
+  if (problems.includes("acs")) {
+    ids.add("recent_mi");
+    ids.add("multivessel");
+    ids.add("diabetes");
+    ids.add("ckd");
+    ids.add("pad_history");
+    ids.add("mi_history");
+    ids.add("ich");
+    ids.add("gi_bleed");
+    ids.add("dialysis");
+    ids.add("recent_stroke");
+  }
 
-  if (problems.includes("bleeding_disorder")) {
-    ids.add("known_inherited_bleeding_disorder");
+  if (problems.includes("pad")) {
+    ids.add("pad_symptoms");
+    ids.add("pad_procedure");
+    ids.add("egfr_lt30");
+  }
+
+  if (problems.includes("dyslipidemia")) {
+    ids.add("triconos_secondary");
+    ids.add("triconos_primary_high");
+    ids.add("bempedoic");
+    ids.add("bempedoic_4w");
+    ids.add("statin");
+    ids.add("ezetimibe");
+    ids.add("pcsk9");
+    ids.add("inclisiran");
+  }
+
+  if (problems.includes("ascvd_obesity")) {
+    ids.add("cvd");
+    ids.add("age45");
+    ids.add("bmi27");
   }
 
   if (problems.includes("vwd")) {
-    ids.add("known_vwd");
+    ids.add("vwd_confirmed");
   }
 
-if (problems.includes("dyslipidemia")) {
-  ids.add("triconos_secondary_prevention");
-  ids.add("triconos_high_risk_primary");
+  if (problems.includes("hemophilia")) {
+    ids.add("hemophilia_confirmed");
+    ids.add("reference_center");
+  }
 
-  ids.add("triconos_bempedoic_started_or_planned");
-  ids.add("triconos_bempedoic_within_4w");
+  if (problems.includes("hht")) {
+    ids.add("hht_present");
+    ids.add("systemic_tx");
+  }
 
-  ids.add("triconos_statin");
-  ids.add("triconos_ezetimibe");
+  if (problems.includes("other_bleeding")) {
+    ids.add("other_bleeding_confirmed");
+    ids.add("reference_center");
+  }
 
-  ids.add("received_pcsk9_mab_last_3m");
-  ids.add("ever_received_inclisiran");
-
-if (problems.includes("acs")) {
-  ids.add("recent_mi");
-  ids.add("multivessel");
-  ids.add("ich");
-  ids.add("gi_bleed");
-  ids.add("recent_stroke");
-  ids.add("dialysis");
-}
-
-if (problems.includes("ascvd_obesity")) {
-  ids.add("cvd");
-  ids.add("age45");
-  ids.add("bmi27");
-}
-
-if (problems.includes("hemophilia") || problems.includes("other_bleeding")) {
-  ids.add("reference_center");
-}
-
-if (problems.includes("hht")) {
-  ids.add("hht_present");
-  ids.add("systemic_tx");
-}
-
-if (problems.includes("fmd")) {
-  ids.add("fmd_confirmed");
-  ids.add("scad_fmd");
-  ids.add("fmd_atypical");
-}
+  if (problems.includes("fmd")) {
+    ids.add("fmd_confirmed");
+    ids.add("scad_fmd");
+    ids.add("fmd_atypical");
+  }
 
   return Array.from(ids);
 };
@@ -145,13 +140,15 @@ export default function Home() {
   };
 
   const visibleQuestions = useMemo(() => {
-    const ids = questionIdsByProblem(problems, answers);
+    const ids = questionIdsByProblem(problems);
     return config.questions.filter((q) => ids.includes(q.id));
-  }, [problems, answers]);
+  }, [problems]);
 
   const visibleStudies = useMemo(() => {
     return config.studies.filter((study) =>
-      study.problemTags.some((tag: string) => problems.includes(tag as ProblemValue))
+      (study.problemTags || []).some((tag: string) =>
+        problems.includes(tag as ProblemValue)
+      )
     );
   }, [problems]);
 
@@ -165,27 +162,12 @@ export default function Home() {
     setAnswers({});
   };
 
-  const getZenithHighRiskStatus = () => {
-    const factors = [
-      "zenith_risk_age_70plus",
-      "zenith_risk_egfr_lt60",
-      "zenith_risk_uacr_gt300",
-      "zenith_risk_current_smoker",
-      "zenith_risk_af",
-      "zenith_risk_cac_gt100",
-      "zenith_risk_ntprobnp_gt125",
-      "zenith_risk_diabetes_or_obesity"
-    ];
-
-    const yesCount = factors.filter((q) => answers[q] === "yes").length;
-    const anyUnknown = factors.some((q) => answers[q] === "unknown" || !answers[q]);
-    const allNo = factors.every((q) => answers[q] === "no");
-
-    return { yesCount, anyUnknown, allNo };
-  };
-
   const evaluate = (study: any) => {
-    for (const ex of study.hard_exclusions || []) {
+    const hardExclusions = study.hard_exclusions || [];
+    const requiresAll = study.requires_all || [];
+    const requiresAny = study.requires_any || [];
+
+    for (const ex of hardExclusions) {
       if (answers[ex] === "yes") {
         return {
           symbol: "❌",
@@ -198,7 +180,7 @@ export default function Home() {
 
     let missing = false;
 
-    for (const req of study.requires_all || []) {
+    for (const req of requiresAll) {
       if (answers[req] === "no") {
         return {
           symbol: "❌",
@@ -212,54 +194,23 @@ export default function Home() {
       }
     }
 
-    if (study.id === "zenith") {
-      const establishedCvd = answers["established_cvd"];
+    if (requiresAny.length > 0) {
+      const anyYes = requiresAny.some((r: string) => answers[r] === "yes");
+      const anyUnknown = requiresAny.some(
+        (r: string) => !answers[r] || answers[r] === "unknown"
+      );
 
-      if (establishedCvd === "yes") {
-        if (answers["zenith_age_established_cvd_18plus"] === "no") {
-          return {
-            symbol: "❌",
-            label: "Waarschijnlijk niet passend",
-            reason: "Leeftijd voldoet niet voor established CVD-arm",
-            tone: "red"
-          };
-        }
-        if (
-          !answers["zenith_age_established_cvd_18plus"] ||
-          answers["zenith_age_established_cvd_18plus"] === "unknown"
-        ) {
-          missing = true;
-        }
-      } else {
-        if (answers["zenith_age_highrisk_55plus"] === "no") {
-          return {
-            symbol: "❌",
-            label: "Waarschijnlijk niet passend",
-            reason: "Leeftijd voldoet niet voor high-risk arm",
-            tone: "red"
-          };
-        }
+      if (!anyYes && !anyUnknown) {
+        return {
+          symbol: "❌",
+          label: "Waarschijnlijk niet passend",
+          reason: "Geen passend richtinggevend criterium",
+          tone: "red"
+        };
+      }
 
-        if (
-          !answers["zenith_age_highrisk_55plus"] ||
-          answers["zenith_age_highrisk_55plus"] === "unknown"
-        ) {
-          missing = true;
-        }
-
-        const risk = getZenithHighRiskStatus();
-
-        if (risk.yesCount >= 2) {
-        } else if (risk.anyUnknown) {
-          missing = true;
-        } else {
-          return {
-            symbol: "❌",
-            label: "Waarschijnlijk niet passend",
-            reason: "Geen established CVD en onvoldoende high-risk criteria",
-            tone: "red"
-          };
-        }
+      if (!anyYes && anyUnknown) {
+        missing = true;
       }
     }
 
@@ -316,7 +267,7 @@ export default function Home() {
     >
       <div
         style={{
-          maxWidth: 820,
+          maxWidth: 900,
           margin: "0 auto",
           background: COLORS.surface,
           borderRadius: 24,
@@ -337,9 +288,7 @@ export default function Home() {
           <div style={{ fontSize: 13, color: COLORS.textSoft, marginBottom: 8, fontWeight: 700 }}>
             UZ Leuven – interne pre-screening tool
           </div>
-          <h1 style={{ margin: 0, fontSize: 30 }}>
-            Study Pre-Screener V2
-          </h1>
+          <h1 style={{ margin: 0, fontSize: 30 }}>Study Pre-Screener V3</h1>
           <div style={{ marginTop: 10, color: COLORS.textSoft, fontSize: 16 }}>
             Snelle pre-screening met focus op hoge sensitiviteit
           </div>
@@ -371,7 +320,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: "grid", gap: 14, marginTop: 18 }}>
-              {config.problemOptions.map((opt) => {
+              {config.problemOptions.map((opt: any) => {
                 const selected = problems.includes(opt.value as ProblemValue);
                 return (
                   <button
@@ -392,9 +341,6 @@ export default function Home() {
                     }}
                   >
                     <div>{selected ? "✓ " : ""}{opt.label}</div>
-                    <div style={{ marginTop: 6, fontSize: 14, color: COLORS.textSoft, fontWeight: 500 }}>
-                      {opt.description}
-                    </div>
                   </button>
                 );
               })}
@@ -410,7 +356,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: "grid", gap: 18, marginTop: 18 }}>
-              {visibleQuestions.map((q) => (
+              {visibleQuestions.map((q: any) => (
                 <div
                   key={q.id}
                   style={{
@@ -463,7 +409,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: "grid", gap: 16, marginTop: 18 }}>
-              {visibleStudies.map((study) => {
+              {visibleStudies.map((study: any) => {
                 const result = evaluate(study);
                 const tone = toneStyles(result.tone);
 
@@ -497,23 +443,15 @@ export default function Home() {
                     </div>
 
                     <div style={{ fontSize: 15, color: COLORS.textSoft, fontWeight: 600, marginBottom: 12 }}>
-                      {study.subtitle}
+                      {study.synopsis || ""}
                     </div>
 
                     <div style={{ fontSize: 15, marginBottom: 10 }}>
                       <strong>Waarom:</strong> {result.reason}
                     </div>
 
-                    <div style={{ fontSize: 15, marginBottom: 10 }}>
-                      <strong>Studie:</strong> {study.synopsis}
-                    </div>
-
-                    <div style={{ fontSize: 15, marginBottom: 10 }}>
-                      <strong>Pitch naar patiënt:</strong> {study.pitch}
-                    </div>
-
                     <div style={{ fontSize: 15 }}>
-                      <strong>Contact:</strong> {study.contact}
+                      <strong>Contact:</strong> {study.contact || "vte@uzleuven.be"}
                     </div>
                   </div>
                 );
